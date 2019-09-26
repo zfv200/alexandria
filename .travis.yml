@@ -31,11 +31,11 @@ after_success:
 
 deploy:
   provider: elasticbeanstalk
-  region: us-east-1
-  app: alexandria
-  env: Alexandria-env
-  bucket_name: elasticbeanstalk-us-east-1-536554314663
-  bucket_path: docker-alexandria
+  region: "us-east-1"
+  app: "alexandria"
+  env: "Alexandria-env"
+  bucket_name: "elasticbeanstalk-us-east-1-536554314663"
+  bucket_path: "docker-alexandria"
   on: 
     branch: master
   access_key_id:

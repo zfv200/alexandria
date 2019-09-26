@@ -3,7 +3,7 @@
     "containerDefinitions": [
         {
             "name": "alexandria",
-            "image": "zfv2019/multi-alexander",
+            "image": "zfv2019/multi-alexandria",
             "hostname": "alexandria",
             "essential": false,
             "memory": 128
