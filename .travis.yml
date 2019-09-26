@@ -1,0 +1,26 @@
+sudo: required
+services: 
+  - docker
+
+before_install:
+# use Dockerfile.dev to build out test version for client
+  - docker build -t zfv2019/alexandria-test -f ./alexandria/Dockerfile.dev ./alexandria
+
+# test running (add additional tests here and above):
+script:
+  - docker run zfv2019/alexandria-test npm test -- --coverage
+
+# after tests pass build production version of images:
+after_success:
+  - docker build -t zfv2019/multi-alexandria ./alexandria
+  - docker build -t zfv2019/multi-nginx ./nginx
+  - docker build -t zfv2019/multi-server ./server
+  - docker build -t zfv2019/multi-worker ./worker
+
+# login to docker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+# take images and push them to docker hub
+  - docker push zfv2019/multi-alexandria
+  - docker push zfv2019/multi-nginx
+  - docker push zfv2019/multi-server
+  - docker push zfv2019/multi-worker
