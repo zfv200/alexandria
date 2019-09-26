@@ -8,7 +8,7 @@ before_install:
 
 # test running (add additional tests here and above):
 script:
-  - docker run zfv2019/alexandria-test npm test -- --coverage
+  - docker run -e CI=true zfv2019/alexandria-test npm test
 
 # after tests pass build production version of images:
 after_success:
