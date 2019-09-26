@@ -1,0 +1,35 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "alexandria",
+            "image": "zfv2019/multi-alexander",
+            "hostname": "alexandria",
+            "essential": false
+        },
+        {
+            "name": "server",
+            "image": "zfv2019/multi-server",
+            "hostname": "api",
+            "essential": false
+        },
+        {
+            "name": "worker",
+            "image": "zfv2019/multi-worker",
+            "hostname": "worker",
+            "essential": false
+        },
+        {
+            "name": "nginx",
+            "image": "zfv2019/multi-nginx",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": ["alexandria", "server"]
+        }
+    ]
+}

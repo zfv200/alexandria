@@ -24,3 +24,21 @@ after_success:
   - docker push zfv2019/multi-nginx
   - docker push zfv2019/multi-server
   - docker push zfv2019/multi-worker
+
+# talk to elastic beanstalk
+# access_key_id:
+  # secure: $AWS_ACCESS_KEY
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-1
+  app: alexandria
+  env: Alexandria-env
+  bucket_name: elasticbeanstalk-us-east-1-536554314663
+  bucket_path: docker-alexandria
+  on: 
+    branch: master
+  access_key_id:
+    secure: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
