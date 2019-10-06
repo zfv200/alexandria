@@ -8,3 +8,10 @@ export function retrieveMyBooks(bookArray){
     }
 } 
 
+export function addSearchResults(results){
+    return {
+        type: actionTypes.ADD_SEARCH_RESULTS,
+        payload: results
+    }
+}
+
