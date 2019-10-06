@@ -2,8 +2,8 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-import Library from './Library'
-import Bookshelf from './Bookshelf'
+import Library from './library/Library'
+import Bookshelf from './bookshelf/Bookshelf'
 
 function App() {
   return (
