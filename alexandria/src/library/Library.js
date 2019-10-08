@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 // component imports
-import BookSearch from '../bookSearch/BookSearch'
+import BookSearch from '../bookSearch/BookSearchClass'
 import BookResult from '../bookResult/BookResult'
 
 const Library = (props) => {
