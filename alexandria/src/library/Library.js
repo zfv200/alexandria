@@ -7,10 +7,10 @@ import BookResult from '../bookResult/BookResult'
 
 const Library = (props) => {
 
-    const renderResults = () => props.searchResults.map(result=><BookResult {...result.volumeInfo}/>)
+    const renderResults = () => props.searchResults.map(result => <div data-test="book-result-div"><BookResult key={result.id}{...result.volumeInfo}/></div>)
 
     return (
-        <div>
+        <div data-test="library-component">
             <BookSearch />
             {renderResults()}
         </div>

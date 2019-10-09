@@ -19,21 +19,23 @@ const setupForLocalState = (props={}, state=null) => {
 }
 
 describe('render', ()=>{
+    let wrapper;
+    
+    beforeEach(()=>{
+        wrapper = setup()
+    })
 
     it('renders without crashing', () => {
-        const wrapper = setup()
         const component = findByTestAttr(wrapper, "book-search-component-input")
         expect(component.length).toBe(1)
     })
 
     it('renders the input field', ()=>{
-        const wrapper = setup()
         const component = findByTestAttr(wrapper, "input-component")
         expect(component.length).toBe(1)
     })
 
     it('renders blank component at first', ()=>{
-        const wrapper = setup()
         const initialValueState = wrapper.state('value')
         expect(initialValueState).toBe('')
     })

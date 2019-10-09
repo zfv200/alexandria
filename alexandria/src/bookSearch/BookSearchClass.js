@@ -9,7 +9,7 @@ import { addSearchResults } from '../actions/index'
 
 class BookSearch extends React.Component {
     state={
-        value: ''
+        value: '',
     }
 
     handleValueChange = (e) => {
@@ -20,10 +20,12 @@ class BookSearch extends React.Component {
 
     handleFormSubmit = (e) => {
         e.preventDefault()
-        searchGoogle(this.state.value)
-        .then(results=>{
-            this.props.addSearchResults(results)
-        })
+        if(this.state.value!==''){
+            searchGoogle(this.state.value)
+            .then(results=>{
+                this.props.addSearchResults(results)
+            })
+        }
     }
 
     render(){
@@ -35,6 +37,7 @@ class BookSearch extends React.Component {
                     value={this.state.value}
                     onChange={this.handleValueChange}
                 />
+                {}
             </form>
         )
     }

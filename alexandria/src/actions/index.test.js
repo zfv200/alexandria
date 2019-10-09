@@ -1,4 +1,7 @@
-import { retrieveMyBooks } from './index'
+import { 
+            retrieveMyBooks, 
+            addSearchResults 
+        } from './index'
 import { actionTypes } from '../actionTypes';
 
 describe('retrieveMyBooks', ()=>{
@@ -6,6 +9,15 @@ describe('retrieveMyBooks', ()=>{
         const action = retrieveMyBooks();
         expect(action).toEqual({
             type: actionTypes.RETRIEVE_MY_BOOKS
+        })
+    })
+})
+
+describe('addSearchResults', () => {
+    test('returns an action with type `ADD_SEARCH_RESULTS`', () => {
+        const action = addSearchResults();
+        expect(action).toEqual({
+            type: actionTypes.ADD_SEARCH_RESULTS
         })
     })
 })

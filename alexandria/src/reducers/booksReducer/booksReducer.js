@@ -7,5 +7,4 @@ export default (defaultState=[], action) => {
         default: 
             return defaultState
     }
-    return defaultState
 }
