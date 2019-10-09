@@ -20,6 +20,7 @@ const setupForLocalState = (props={}, state=null) => {
 
 describe('render', ()=>{
     let wrapper;
+    
     beforeEach(()=>{
         wrapper = setup()
     })
