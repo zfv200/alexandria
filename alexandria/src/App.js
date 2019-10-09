@@ -12,7 +12,7 @@ function App() {
         <header className="App-header">
         <div>
           <Route exact path="/" component={Bookshelf} />
-          <Route path="/library" component={Library} />
+          <Route path="/library" component={()=><Library />} />
         </div>          
         </header>
       </div>
