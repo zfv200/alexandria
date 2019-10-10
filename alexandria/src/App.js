@@ -11,7 +11,6 @@ export const library = () => {
 
 function App() {
 
-
   return (
     <Router>
       <div className="App" data-test="app-component">
