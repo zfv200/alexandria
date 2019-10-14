@@ -6,41 +6,59 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const versionStart = '/api/v1'
 
-const app = express()
-app.use(cors())
-app.use(bodyParser.json())
+// graphql interface:
+const graphql = require("graphql")
+const expressGraphQL = require('express-graphql')
+const { GraphQLSchema } = graphql 
+const { query } = require("./schemas/queries")
+const { mutation } = require("./schemas/mutations")
+// const schema = require('./graphQLSchema/schema')
 
-
-// postgres setup:
-const { Pool } = require('pg')
-const pgClient = new Pool({
-    user: keys.pgUser,
-    host: keys.pgHost,
-    database: keys.pgDatabase,
-    password: keys.pgPassword,
-    port: keys.pgPort
+const schema = new GraphQLSchema({
+    query, 
+    mutation
 })
-//on error:
-pgClient.on('error', ()=> console.log('PG connection lost'))
 
-//actual schema setup:
+const app = express()
+// app.use(cors())
+// app.use(bodyParser.json())
 
-pgClient
-    .query('CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, name TEXT, email TEXT, created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
-    .catch(err=>console.log(err));
+app.use('/api/v1/graphql', bodyParser.json(), cors(), expressGraphQL({
+    schema: schema, 
+    graphiql: true
+}))
 
-pgClient 
-    .query('CREATE TABLE IF NOT EXISTS books (id SERIAL PRIMARY KEY, title TEXT, description TEXT)')
 
-pgClient 
-    .query('CREATE TABLE IF NOT EXISTS authors (id SERIAL PRIMARY KEY, name TEXT)')
+// // postgres setup:
+// const { Pool } = require('pg')
+// const pgClient = new Pool({
+//     user: keys.pgUser,
+//     host: keys.pgHost,
+//     database: keys.pgDatabase,
+//     password: keys.pgPassword,
+//     port: keys.pgPort
+// })
+// //on error:
+// pgClient.on('error', ()=> console.log('PG connection lost'))
 
-pgClient 
-    .query('CREATE TABLE IF NOT EXISTS book_authors (id SERIAL PRIMARY KEY, book_id INTEGER NOT NULL REFERENCES books(id), author_id INTEGER NOT NULL REFERENCES authors(id))')
+// //actual schema setup:
 
-pgClient 
-    .query('CREATE TABLE IF NOT EXISTS user_books (id SERIAL PRIMARY KEY, user_id INTEGER NOT NULL REFERENCES users(id), book_id INTEGER NOT NULL REFERENCES books(id))')
-    .catch(err => console.log(err));
+// pgClient
+//     .query('CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, name TEXT, email TEXT, created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
+//     .catch(err=>console.log(err));
+
+// pgClient 
+//     .query('CREATE TABLE IF NOT EXISTS books (id SERIAL PRIMARY KEY, title TEXT, description TEXT)')
+
+// pgClient 
+//     .query('CREATE TABLE IF NOT EXISTS authors (id SERIAL PRIMARY KEY, name TEXT)')
+
+// pgClient 
+//     .query('CREATE TABLE IF NOT EXISTS book_authors (id SERIAL PRIMARY KEY, book_id INTEGER NOT NULL REFERENCES books(id), author_id INTEGER NOT NULL REFERENCES authors(id))')
+
+// pgClient 
+//     .query('CREATE TABLE IF NOT EXISTS user_books (id SERIAL PRIMARY KEY, user_id INTEGER NOT NULL REFERENCES users(id), book_id INTEGER NOT NULL REFERENCES books(id))')
+//     .catch(err => console.log(err));
 
 
 //Redis setup:
@@ -58,7 +76,7 @@ const redisPublisher = redisClient.duplicate()
 //express route handlers:
 
 app.get(versionStart + "/", (req, res)=>{
-    res.send('hi!!!!!')
+    res.send('hi')
 })
 
 //to be updated:
