@@ -12,7 +12,6 @@ const expressGraphQL = require('express-graphql')
 const { GraphQLSchema } = graphql 
 const { query } = require("./schemas/queries")
 const { mutation } = require("./schemas/mutations")
-// const schema = require('./graphQLSchema/schema')
 
 const schema = new GraphQLSchema({
     query, 
@@ -20,8 +19,6 @@ const schema = new GraphQLSchema({
 })
 
 const app = express()
-// app.use(cors())
-// app.use(bodyParser.json())
 
 app.use('/api/v1/graphql', bodyParser.json(), cors(), expressGraphQL({
     schema: schema, 
