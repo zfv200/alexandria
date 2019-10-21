@@ -19,9 +19,7 @@ const { Pool } = require('pg')
 
 const graphql = require('graphql');
 const connectionString = 'myURI';
-// const pgp = require('pg-promise')();
-// const db = {}
-// db.conn = pgp(connectionString);
+
 const {
     GraphQLObjectType,
     GraphQLID,
@@ -45,21 +43,7 @@ pgClient.on('error', ()=> console.log('PG connection lost'))
 
 //actual schema setup:
 
-pgClient
-    .query('CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, name TEXT, email TEXT, created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
-    .catch(err=>console.log(err));
-    
-// const queryText = 'INSERT INTO users(name, email) VALUES($1, $2)'
-// const values = ["Zach", "zach@aol.com"]
 
-// pgClient.query('SELECT * FROM users').then(console.log)
-
-// pgClient 
-//     .query(queryText, values, (err, res)=>{
-//         if(err){
-//             console.log(err, err.stack)
-//         }
-//     }) 
     
 const UserType = new GraphQLObjectType({
     name: 'User',

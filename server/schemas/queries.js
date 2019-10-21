@@ -1,6 +1,7 @@
-const { db } = require("../pgAdaptor");
+const { sequelize } = require('../models/index')
 const { GraphQLObjectType, GraphQLID } = require("graphql");
 const { UserType } = require("./types");
+const { user, book, userbook, author } = sequelize.models
 
 const RootQuery = new GraphQLObjectType({
     name: "RootQueryType",
@@ -10,23 +11,17 @@ const RootQuery = new GraphQLObjectType({
             type: UserType,
             args: { id: { type: GraphQLID } },
             resolve(parentValue, args) {
-                const query = `SELECT * FROM users WHERE id=$1`;
-                const values = [args.id];
-
-                return db
-                    .one(query, values)
-                    .then(res => res)
-                    .catch(err => err);
+                return user.findByPk(args.id)
+                .then(res=>res.map(user=>user.dataValues))
+                .catch(err=>err)
             }
         },
         users: {
             type: UserType,
             resolve(parentValue) {
-                const query = `SELECT * FROM users`
-                return db 
-                    .many(query)
-                    .then(res=> res)
-                    .catch(err => err)
+                return user.findAll()
+                .then(res=>res.dataValues)
+                .catch(err=>err)
             }
         }
     }
