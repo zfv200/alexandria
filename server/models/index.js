@@ -1,21 +1,6 @@
 const Sequelize = require('sequelize')
 const keys = require('../keys')
-// const db = require('../pgAdaptor').db
 
-// require('dotenv').config()
-// const pgPromise = require('pg-promise')
-
-// const pgp = pgPromise({})
-
-// const config = {
-//     user: keys.pgUser,
-//     host: keys.pgHost,
-//     database: keys.pgDatabase,
-//     password: keys.pgPassword,
-//     port: keys.pgPort,
-// }
-
-// const db = pgp(config)
 
 const sequelize = new Sequelize(
     keys.pgDatabase,
@@ -28,10 +13,10 @@ const sequelize = new Sequelize(
 )
 
 const models = {
+    UserBook: sequelize.import('./userbook'),
     Book: sequelize.import('./book'),
     User: sequelize.import('./user'),
-    Author: sequelize.import('./author'),
-    UserBook: sequelize.import('./userbook')
+    Author: sequelize.import('./author')
 }
 
 Object.keys(models).forEach(key => {
@@ -42,4 +27,3 @@ Object.keys(models).forEach(key => {
 
 module.exports = { sequelize, models }
 
-// export default models

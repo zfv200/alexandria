@@ -4,7 +4,7 @@ import { graphql } from 'react-apollo'
 
 
 const BookShelf = (props) => {
-    console.log(props)
+
     return (
         <div data-test="bookshelf-component">
             
@@ -16,7 +16,7 @@ const query = gql`
     {
         user(id:"1") {
             id
-            name
+            username
             email
         }
     }
