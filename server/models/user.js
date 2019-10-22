@@ -13,6 +13,13 @@ const user = (sequelize, DataTypes) => {
         //     type: 
         // }
     })
+
+    User.associate = (models) => {
+        User.belongsToMany(models.Book, {
+            through: models.UserBook
+        })
+    }
+
     return User
 }
 

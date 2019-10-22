@@ -7,7 +7,8 @@ const book = (sequelize, DataTypes) => {
     })
 
     Book.associate = (models) => {
-        Book.hasMany(models.UserBook, {
+        Book.belongsToMany(models.User, {
+            through: models.UserBook,
             onDelete: 'CASCADE'
         })
 

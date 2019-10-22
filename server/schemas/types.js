@@ -19,6 +19,7 @@ const AuthorType = new GraphQLObjectType({
                 return author.findByPk(parentValue.id)
                 .then(res=>res.getBooks())
                 .then(res=>res)
+                .catch(err=>err)
             }
         },
     })
@@ -33,12 +34,35 @@ const BookType = new GraphQLObjectType({
         author: {
             type: AuthorType, 
             resolve(parentValue, args) {
-
+                return book.findByPk(parentValue.id)
+                .then(res=>res.getAuthor())
+                .then(res=>res)
+                .catch(err=>err)
             }
         },
 
     })
 })
+
+// const UserBookType = new GraphQLObjectType({
+//     name: "UserBook",
+//     // type: "Query",
+//     fields: () => ({
+//         id: { type: GraphQLString },
+//         user_id: {
+//             type: GraphQLString
+//         },
+//         book_id: {
+//             type: GraphQLString
+//         },
+//         books: {
+//             type: new GraphQLList(BookType),
+//             resolve(parentValue, args) {
+//                 return db.query(`SELECT * FROM books WHERE books.id = ${parentValue.book_id}`)
+//             }
+//         }
+//     })
+// })
 
 const UserType = new GraphQLObjectType({
     name: "User",
@@ -50,46 +74,15 @@ const UserType = new GraphQLObjectType({
         books: {
             type: new GraphQLList(BookType),
             resolve(parentValue, args){
-                // return [{
-                //     id: "1",
-                //     title: "Shrek"
-                // }]
-                // return db.query('SELECT books.id, books.title FROM books JOIN userbooks ON userbooks.book_id = books.id JOIN users ON userbooks.user_id = users.id')
-                // return db.query(`SELECT books.id, books.title, books.author_id FROM books INNER JOIN userbooks ON userbooks.book_id = books.id INNER JOIN users ON userbooks.user_id = ${parentValue.id}`).then(console.log)
+                return user.findByPk(parentValue.id)
+                .then(res=>res.getBooks())
+                .catch(err=>err)
             }
         }
-        // userbooks: {
-        //     type: new GraphQLList(UserBookType),
-        //     resolve(parentValue, args) {
-        //         return db.query(`SELECT * FROM userbooks WHERE userbooks.user_id = ${parentValue.id}`)
-        //     },
-        // },
     })
 });
-
-const UserBookType = new GraphQLObjectType({
-    name: "UserBook",
-    // type: "Query",
-    fields: () => ({
-        id: { type: GraphQLString },
-        user_id: {
-            type: GraphQLString
-        },
-        book_id: {
-            type: GraphQLString
-        },
-        books: {
-            type: new GraphQLList(BookType),
-            resolve(parentValue, args){
-                return db.query(`SELECT * FROM books WHERE books.id = ${parentValue.book_id}`)
-            }
-        }
-    })
-})
-
-
 
 exports.UserType = UserType;
 exports.BookType = BookType;
 exports.AuthorType = AuthorType;
-exports.UserBookType = UserBookType;
+// exports.UserBookType = UserBookType;
