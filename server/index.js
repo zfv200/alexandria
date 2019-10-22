@@ -109,14 +109,21 @@ const seed = async () => {
     await models.Book.create(
         {
             title: "Shrek",
-            author_id: 1
+            authorId: 1
+        }
+    ) 
+
+    await models.Book.create(
+        {
+            title: "Shrek 2",
+            authorId: 1
         }
     )
 
     await models.UserBook.create(
         {
             user_id: 1,
-            author_id: 1
+            authorId: 1
         }
     )
 }

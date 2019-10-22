@@ -1,35 +1,48 @@
 const graphql = require("graphql");
 const { GraphQLObjectType, GraphQLString, GraphQLList } = graphql;
-const db = require("../pgAdaptor").db;
+// const db = require("../pgAdaptor").db;
 
+const { sequelize } = require('../models/index')
+const { user, book, userbook, author } = sequelize.models
 
-
-const BookType = new GraphQLObjectType({
-    name: "Book",
-    type: "Query",
-    fields: ()=>({
-        id: { type: GraphQLString },
-        title: { type: GraphQLString },
-        author_id: { type: GraphQLString },
-
-    })
-})
 
 
 const AuthorType = new GraphQLObjectType({
     name: "Author",
-    type: "Query", 
+    // type: "Query", 
     fields: ()=>({
         id: { type: GraphQLString },
         name: { type: GraphQLString },
-        books: [{ type: new GraphQLList(BookType) }],
+        books: { 
+            type: new GraphQLList(BookType), 
+            resolve(parentValue, args) {
+                return author.findByPk(parentValue.id)
+                .then(res=>res.getBooks())
+                .then(res=>res)
+            }
+        },
     })
 })
 
+const BookType = new GraphQLObjectType({
+    name: "Book",
+    // type: "Query",
+    fields: ()=>({
+        id: { type: GraphQLString },
+        title: { type: GraphQLString },
+        author: {
+            type: AuthorType, 
+            resolve(parentValue, args) {
+
+            }
+        },
+
+    })
+})
 
 const UserType = new GraphQLObjectType({
     name: "User",
-    type: "Query",
+    // type: "Query",
     fields: ()=>({
         id: { type: GraphQLString },
         username: { type: GraphQLString },
@@ -56,7 +69,7 @@ const UserType = new GraphQLObjectType({
 
 const UserBookType = new GraphQLObjectType({
     name: "UserBook",
-    type: "Query",
+    // type: "Query",
     fields: () => ({
         id: { type: GraphQLString },
         user_id: {
@@ -75,20 +88,6 @@ const UserBookType = new GraphQLObjectType({
 })
 
 
-
-
-
-// const ProjectType = new GraphQLObjectType({
-//     name: "Project",
-//     type: "Query",
-//     fields: {
-//         id: { type: GraphQLString },
-//         creator_id: { type: GraphQLString },
-//         created: { type: GraphQLString },
-//         title: { type: GraphQLString },
-//         description: { type: GraphQLString }
-//     }
-// });
 
 exports.UserType = UserType;
 exports.BookType = BookType;
