@@ -44,25 +44,19 @@ const BookType = new GraphQLObjectType({
     })
 })
 
-// const UserBookType = new GraphQLObjectType({
-//     name: "UserBook",
-//     // type: "Query",
-//     fields: () => ({
-//         id: { type: GraphQLString },
-//         user_id: {
-//             type: GraphQLString
-//         },
-//         book_id: {
-//             type: GraphQLString
-//         },
-//         books: {
-//             type: new GraphQLList(BookType),
-//             resolve(parentValue, args) {
-//                 return db.query(`SELECT * FROM books WHERE books.id = ${parentValue.book_id}`)
-//             }
-//         }
-//     })
-// })
+const UserBookType = new GraphQLObjectType({
+    name: "UserBook",
+    // type: "Query",
+    fields: () => ({
+        id: { type: GraphQLString },
+        userId: {
+            type: GraphQLString
+        },
+        bookId: {
+            type: GraphQLString
+        },
+    })
+})
 
 const UserType = new GraphQLObjectType({
     name: "User",
@@ -85,4 +79,4 @@ const UserType = new GraphQLObjectType({
 exports.UserType = UserType;
 exports.BookType = BookType;
 exports.AuthorType = AuthorType;
-// exports.UserBookType = UserBookType;
+exports.UserBookType = UserBookType;
