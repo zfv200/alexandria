@@ -11,20 +11,6 @@ const RootMutation = new GraphQLObjectType({
     name: "RootMutationType",
     type: "Mutation",
     fields: {
-        // addUser: {
-        //     type: UserType,
-        //     args: {
-        //         username: { type: new GraphQLNonNull(GraphQLString) },
-        //         email: { type: new GraphQLNonNull(GraphQLString) }
-        //     },
-        //     resolve(parentValue, args) {
-        //         // const query = `INSERT INTO user(name, email) VALUES ($1, $2) RETURNING name`;
-        //         // const values = [
-        //         //     args.name,
-        //         //     args.email
-        //         // ];
-        //     }
-        // },
         addBook: {
             type: UserBookType,
             args: {
@@ -56,6 +42,21 @@ const RootMutation = new GraphQLObjectType({
                             }
                         })
                     })
+                })
+            }
+        },
+        deleteUserBook: {
+            type: UserBookType,
+            args: { 
+                userId: { type: new GraphQLNonNull(GraphQLID) },
+                bookId: { type: new GraphQLNonNull(GraphQLID) },
+            },
+            resolve(parentValue, args){
+                userbook.destroy({
+                    where: {
+                        userId: args.userId,
+                        bookId: args.bookId
+                    }
                 })
             }
         }
