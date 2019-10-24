@@ -3,6 +3,9 @@ const book = (sequelize, DataTypes) => {
         title: {
             type: DataTypes.STRING,
             unique: false
+        }, 
+        thumbnail: {
+            type: DataTypes.STRING
         }
     })
 

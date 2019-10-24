@@ -109,6 +109,7 @@ const seed = async () => {
     await models.Book.create(
         {
             title: "Shrek",
+            thumbnail: "http://books.google.com/books/content?id=-ON2PwAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
             authorId: 1
         }
     ) 
@@ -116,6 +117,7 @@ const seed = async () => {
     await models.Book.create(
         {
             title: "Shrek 2",
+            thumbnail: "http://books.google.com/books/content?id=-ON2PwAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
             authorId: 1
         }
     ) 
@@ -123,6 +125,7 @@ const seed = async () => {
     await models.Book.create(
         {
             title: "Shrek 3",
+            thumbnail: "http://books.google.com/books/content?id=-ON2PwAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
             authorId: 1
         }
     )
