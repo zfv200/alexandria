@@ -11,6 +11,7 @@ const Book = (props) => {
             <h3>{author.name}</h3>
         </div>
     )
+    
 }
 
 export default Book
