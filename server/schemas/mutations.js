@@ -1,11 +1,8 @@
 const graphql = require("graphql");
-// const db = require("../pgAdaptor").db;
 const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLBoolean, GraphQLNonNull, GraphQLList } = graphql;
 const { UserType, UserBookType, BookType, AuthorType } = require("./types");
 const { sequelize } = require('../models/index')
 const { user, book, userbook, author } = sequelize.models
-
-// http://books.google.com/books/content?id=-ON2PwAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api
 
 const RootMutation = new GraphQLObjectType({
     name: "RootMutationType",
