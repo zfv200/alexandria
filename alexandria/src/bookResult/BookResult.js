@@ -1,8 +1,9 @@
 import React from 'react'
 
-import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
+
+import { addBookMutation } from '../queries/index'
 
 const BookResults = (props) => {
 
@@ -20,7 +21,7 @@ const BookResults = (props) => {
             authors: props.authors,
             thumbnail: thumbnail()
         }
-        
+
         props.mutate({
             variables: variables
         })
@@ -36,23 +37,10 @@ const BookResults = (props) => {
     )
 }
 
-const mutation = gql`
-    mutation AddBook($userId: ID!, $title: String!, $authors: [String!], $thumbnail: String!) {
-        addBook (userId: $userId, title: $title, authors: $authors, thumbnail: $thumbnail) {
-            id
-            title 
-            thumbnail 
-            author {
-                name
-            }
-        }
-    }
-`
-
 const mapStateToProps = (state) => {
     return {
         userId: state.userReducer.id
     }
 }
 
-export default connect(mapStateToProps)(graphql(mutation)(BookResults))
+export default connect(mapStateToProps)(graphql(addBookMutation)(BookResults))
