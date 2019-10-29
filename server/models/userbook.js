@@ -3,11 +3,6 @@ const userbook = (sequelize, DataTypes) => {
         
     })
 
-    // UserBook.associate = (models) => {
-    //     UserBook.belongsTo(models.User)
-    //     UserBook.belongsTo(models.Book)
-    // };
-
     return UserBook
 }
 

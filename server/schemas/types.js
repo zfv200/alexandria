@@ -25,6 +25,14 @@ const AuthorType = new GraphQLObjectType({
     })
 })
 
+const ReviewType = new GraphQLObjectType({
+    name: "Review",
+    fields: () => ({
+        id: { type: GraphQLString },
+        content: { type: GraphQLString }
+    })
+})
+
 const BookType = new GraphQLObjectType({
     name: "Book",
     // type: "Query",
@@ -41,7 +49,13 @@ const BookType = new GraphQLObjectType({
                 .catch(err=>err)
             }
         },
-
+        reviews: {
+            type: new GraphQLList(ReviewType),
+            resolve(parentValue, args) {
+                return book.findByPk(parentValue.id)
+                .then(book=>book.getReviews())
+            }
+        }
     })
 })
 
@@ -81,3 +95,4 @@ exports.UserType = UserType;
 exports.BookType = BookType;
 exports.AuthorType = AuthorType;
 exports.UserBookType = UserBookType;
+exports.ReviewType = ReviewType

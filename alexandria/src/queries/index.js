@@ -39,8 +39,12 @@ export const getSingleBook = gql`
         book(id: $id){
             id
             title 
+            reviews {
+                id
+                content 
+            }
             author {
-            name
+                name
             }
             thumbnail
         }
