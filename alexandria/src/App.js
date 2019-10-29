@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import Library from './library/Library'
 import Bookshelf from './bookshelf/Bookshelf'
+import BookShow from './bookshow/BookShow'
 
 export const library = () => {
   return <Library />
@@ -17,6 +18,7 @@ function App() {
         <div>
           <Route exact path="/" component={Bookshelf} />
           <Route path="/library" component={library} />
+          <Route path="/books/:id" component={BookShow} />
         </div>          
       </div>
     </Router>
