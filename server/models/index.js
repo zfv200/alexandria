@@ -16,7 +16,8 @@ const models = {
     UserBook: sequelize.import('./userbook'),
     Book: sequelize.import('./book'),
     User: sequelize.import('./user'),
-    Author: sequelize.import('./author')
+    Author: sequelize.import('./author'),
+    Review: sequelize.import('./review')
 }
 
 Object.keys(models).forEach(key => {

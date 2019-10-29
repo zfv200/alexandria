@@ -15,6 +15,10 @@ const book = (sequelize, DataTypes) => {
             onDelete: 'CASCADE'
         })
 
+        Book.hasMany(models.Review, {
+            onDelete: 'CASCADE'
+        })
+        
         Book.belongsTo(models.Author)
     }
 

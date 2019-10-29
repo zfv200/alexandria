@@ -5,23 +5,28 @@ import { Link } from 'react-router-dom'
 
 import { getSingleBook } from '../queries/index'
 
-
-
+import Review from '../review/Review'
 
 const BookShow = (props) => {
 
     const { id } = props.match.params
 
     const renderBook = () => {
-        const { title, author, thumbnail } = props.data.book 
+
+        const { title, author, thumbnail, reviews } = props.data.book 
+
         return (
             <div>
                 <h1>{title}</h1>
                 <img src={thumbnail} />
                 <h3>{author.name}</h3>
+                {renderReviews(reviews)}
+                <button>Add Review</button>
             </div>
         )
     }
+
+    const renderReviews = (reviews) => reviews.map(review=><Review key={review.id} {...review} />)
 
     return (
         <div>
