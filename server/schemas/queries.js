@@ -37,11 +37,20 @@ const RootQuery = new GraphQLObjectType({
             type: new GraphQLList(BookType),
             args: { userId: { type: GraphQLID } },
             resolve(parentValue, args) {
-                console.log("HIIIIIIIII1!!!!!!!!12!1!1!")
                 return user.findByPk(args.userId)
                 .then(targetUser=>{
                     return targetUser.getBooks()
                 })
+                .catch(err=>err)
+            }
+        },
+        book: {
+            type: BookType,
+            args: { id: { type: GraphQLID } },
+            resolve(parentValue, args) {
+                return book.findByPk(args.id)
+                .then(book=>book)
+                .catch(err=>err)
             }
         }
     }

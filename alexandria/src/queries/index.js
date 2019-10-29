@@ -34,6 +34,19 @@ export const getUsersBooks = gql`
     }
 `
 
+export const getSingleBook = gql`
+    query getSingleBook($id: ID!){
+        book(id: $id){
+            id
+            title 
+            author {
+            name
+            }
+            thumbnail
+        }
+    }
+`
+
 export const fetchUserQuery = gql`
     {
         user(id:"1") {
