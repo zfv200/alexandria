@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { graphql } from 'react-apollo'
 
@@ -12,6 +12,10 @@ import BookCard from '../bookcard/BookCard'
 
 
 const BookShelf = (props) => {
+
+    useEffect(()=>{
+        props.data.refetch()
+    }, [])
 
     const renderBooks = () => {
         const { books } = props.data.user
