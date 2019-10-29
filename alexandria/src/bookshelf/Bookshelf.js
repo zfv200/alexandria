@@ -4,18 +4,18 @@ import { graphql } from 'react-apollo'
 
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import { fetchUserQuery, getUsersBooks, deleteBookMutation } from '../queries/index'
 
-import Book from '../book/Book'
+import BookCard from '../bookcard/BookCard'
 
 
 const BookShelf = (props) => {
 
-    console.log(props)
     const renderBooks = () => {
         const { books } = props.data.user
-        return books.map(book=><Book deleteBook={deleteBook} key={book.id} {...book}/>)
+        return books.map(book => <BookCard deleteBook={deleteBook} key={book.id} {...book} />)
     }
 
     const deleteBook = (id) => {
@@ -25,20 +25,25 @@ const BookShelf = (props) => {
                 bookId: id
             },
             refetchQueries: [
-                { 
-                    query: fetchUserQuery, 
+                {
+                    query: fetchUserQuery,
                 }
             ]
         })
-        .catch(err=>err)
+            .catch(err => err)
     }
 
-    return props.data.loading ? 
-        <div>Loading!</div>
-        :
-        <div data-test="bookshelf-component">
-            {renderBooks()}
+    return (
+        <div>
+            <Link to="/library">Library</Link>
+            {props.data.loading ?
+                <div>Loading!</div>
+                :
+                <div data-test="bookshelf-component">
+                    {renderBooks()}
+                </div>}
         </div>
+    )
 }
 
 const mapStateToProps = (state) => {
