@@ -10,18 +10,22 @@ const Library = (props) => {
 
     const renderResults = () => props.searchResults.map(result => <div key={result.id} data-test="book-result-div"><BookResult key={result.id}{...result.volumeInfo} /></div>)
 
+    const renderError = () => props.error ? <h1>No Results!!</h1> : null
+
     return (
         <div data-test="library-component">
             <Link to="/">Bookshelf</Link>
             <BookSearch />
             {renderResults()}
+            {renderError()}
         </div>
     )
 }
 
 function mapStateToProps(state) {
     return {
-        searchResults: state.bookSearchReducer
+        searchResults: state.bookSearchReducer.results,
+        error: state.bookSearchReducer.error
     }
 }
 

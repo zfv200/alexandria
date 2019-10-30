@@ -1,9 +1,25 @@
 import { actionTypes } from "../../actionTypes";
 
-export default (defaultState = [], action) => {
+const state = {
+    results: [],
+    error: false
+}
+
+export default (defaultState = state, action) => {
     switch (action.type) {
         case actionTypes.ADD_SEARCH_RESULTS:
-            return [...action.payload]
+            if(action.payload && action.payload.length){
+                return {
+                    ...state,
+                    results: [...action.payload],
+                    error: false
+                }
+            }
+        case actionTypes.ADD_SEARCH_ERROR:
+            return {
+                ...state, 
+                error: true
+            }
         default:
             return defaultState
     }

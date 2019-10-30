@@ -15,3 +15,10 @@ export function addSearchResults(results){
     }
 }
 
+export function addSearchError(){
+    return {
+        type: actionTypes.ADD_SEARCH_ERROR,
+        payload: true
+    }
+}
+
