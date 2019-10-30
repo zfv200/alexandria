@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { searchGoogle } from '../adapter/adapter'
 
 //actions: 
-import { addSearchResults } from '../actions/index'
+import { addSearchResults, addSearchError } from '../actions/index'
 
 class BookSearch extends React.Component {
     state={
@@ -23,7 +23,11 @@ class BookSearch extends React.Component {
         if(this.state.value!==''){
             searchGoogle(this.state.value)
             .then(results=>{
-                this.props.addSearchResults(results)
+                if(results){
+                    this.props.addSearchResults(results)
+                } else {
+                    this.props.addSearchError()
+                }
             })
         }
     }
@@ -43,4 +47,4 @@ class BookSearch extends React.Component {
     }
 }
 
-export default connect(null, { addSearchResults })(BookSearch)
+export default connect(null, { addSearchResults, addSearchError })(BookSearch)

@@ -144,6 +144,13 @@ const seed = async () => {
         }
     )
 
+    await models.UserBook.create(
+        {
+            userId: 1,
+            bookId: 3
+        }
+    )
+
     await models.Review.create(
         {
             content: "This book was the greatest! Loved it.",

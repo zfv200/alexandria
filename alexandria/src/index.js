@@ -13,7 +13,8 @@ import store from './configureStore'
 
 const client = new ApolloClient({
     link: createHttpLink({ uri: '/api/v1/graphql' }),
-    cache: new InMemoryCache()
+    cache: new InMemoryCache(),
+    dataIdFromObject: o => o.id
 })
 
 ReactDOM.render(
