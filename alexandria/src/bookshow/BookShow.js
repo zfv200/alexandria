@@ -28,7 +28,7 @@ const BookShow = (props) => {
 
     const renderReview = (reviews) => {
         //coded for user's one review for now:
-        return reviewing ? <CreateReview finishReviewing={updateReview} {...reviews[0]}/> : renderReviews(reviews)
+        return reviewing ? <CreateReview bookId={id} finishReviewing={updateReview} {...reviews[0]}/> : renderReviews(reviews)
     }
     
     const renderReviews = (reviews) => reviews.map(review=><Review key={review.id} {...review} />)

@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 
+import { updateReviewMutation } from '../queries/index'
+
+import { graphql } from 'react-apollo'
 
 
 const CreateReview = (props) => {
@@ -8,9 +11,17 @@ const CreateReview = (props) => {
 
     const [value, updateValue] = useState(grabContent())
 
-    const handleSubmit = () => {
-        props.finishReviewing()
+    const handleSubmit = (e) => {
+        e.preventDefault()
 
+        props.finishReviewing()
+        props.mutate({
+            variables: {
+                bookId: props.bookId, 
+                reviewId: props.id,
+                content: value
+            }
+        })
     }
 
     return (
@@ -20,9 +31,9 @@ const CreateReview = (props) => {
                 type="text" 
                 onChange={(e)=>updateValue(e.target.value)}
             />
-            <button type="submit">Create Review</button>
+            <button type="button" onClick={handleSubmit}>Create Review</button>
         </form>
     )
 }
 
-export default CreateReview
+export default graphql(updateReviewMutation)(CreateReview)
