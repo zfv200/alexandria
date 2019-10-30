@@ -68,6 +68,21 @@ const RootMutation = new GraphQLObjectType({
                 })
             }
         },
+        createBookReview: {
+            type: BookType,
+            args: {
+                bookId: { type: new GraphQLNonNull(GraphQLID) },
+                content: { type: new GraphQLNonNull(GraphQLString) }
+            },
+            resolve(parentValue, args){
+                return review.create({
+                    content: args.content,
+                    bookId: args.bookId
+                })
+                .then(review=>review.getBook())
+                // .then(console.log)
+            }
+        },
         updateBookReview: {
             type: BookType,
             args: {
@@ -86,7 +101,7 @@ const RootMutation = new GraphQLObjectType({
                         }
                     }
                 )
-                .then(reviewId=>review.findByPk(parseInt(reviewId)))
+                .then(reviewId=>review.findByPk(args.reviewId))
                 .then(review=>review.getBook())
                 .catch(err=>err)
             }

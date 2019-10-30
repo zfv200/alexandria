@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import { compose } from 'redux'
 
-import { updateReviewMutation } from '../queries/index'
+import { updateReviewMutation, createReviewMutation } from '../queries/index'
 
 import { graphql } from 'react-apollo'
 
@@ -11,17 +12,34 @@ const CreateReview = (props) => {
 
     const [value, updateValue] = useState(grabContent())
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-
-        props.finishReviewing()
+    const updateReview = () => {
         props.mutate({
             variables: {
-                bookId: props.bookId, 
+                bookId: props.bookId,
                 reviewId: props.id,
                 content: value
             }
         })
+    }
+
+    const createReview = () => {
+        props.createReviewMutation({
+            variables: {
+                bookId: props.bookId,
+                content: value
+            }
+        })
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+
+        props.finishReviewing()
+        if(props.id){
+            updateReview()
+        } else {
+            createReview()
+        }
     }
 
     return (
@@ -36,4 +54,11 @@ const CreateReview = (props) => {
     )
 }
 
-export default graphql(updateReviewMutation)(CreateReview)
+export default compose(
+    graphql(createReviewMutation, {
+        name: "createReviewMutation"
+    }),
+    graphql(updateReviewMutation)
+)(CreateReview)
+
+// export default graphql(createReviewMutation)(graphql(updateReviewMutation)(CreateReview))

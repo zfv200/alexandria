@@ -7,6 +7,7 @@ export const addBookMutation = gql`
             title 
             thumbnail 
             author {
+                id
                 name
             }
         }
@@ -21,11 +22,24 @@ export const deleteBookMutation = gql`
     }
 `
 
+export const createReviewMutation = gql`
+    mutation CreateBookReview($bookId: ID!, $content: String!){
+        createBookReview(bookId: $bookId, content: $content){
+            id
+            reviews {
+                id
+                content
+            }
+        }
+    }
+`
+
 export const updateReviewMutation = gql`
     mutation UpDateBookReview($bookId: ID!, $reviewId: ID!, $content: String!){
         updateBookReview(bookId: $bookId, reviewId: $reviewId, content: $content){
             id
 		    reviews {
+                id
                 content
             }
         }
@@ -38,6 +52,7 @@ export const getUsersBooks = gql`
             id
             title,
             author {
+                id
                 name
             }, 
             thumbnail
@@ -55,6 +70,7 @@ export const getSingleBook = gql`
                 content 
             }
             author {
+                id
                 name
             }
             thumbnail
@@ -62,6 +78,7 @@ export const getSingleBook = gql`
     }
 `
 
+// place where id is hardcoded:
 export const fetchUserQuery = gql`
     {
         user(id:"1") {
@@ -73,6 +90,7 @@ export const fetchUserQuery = gql`
                 title
                 thumbnail
                 author {
+                    id
                     name
                 }
             }
