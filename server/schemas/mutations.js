@@ -1,8 +1,8 @@
 const graphql = require("graphql");
 const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLBoolean, GraphQLNonNull, GraphQLList } = graphql;
-const { UserType, UserBookType, BookType, AuthorType } = require("./types");
+const { UserType, UserBookType, BookType, AuthorType, ReviewType } = require("./types");
 const { sequelize } = require('../models/index')
-const { user, book, userbook, author } = sequelize.models
+const { user, book, userbook, author, review } = sequelize.models
 
 const RootMutation = new GraphQLObjectType({
     name: "RootMutationType",
@@ -66,6 +66,28 @@ const RootMutation = new GraphQLObjectType({
                         bookId: args.bookId
                     }
                 })
+            }
+        },
+        updateBookReview: {
+            type: ReviewType,
+            args: {
+                bookId: { type: new GraphQLNonNull(GraphQLID) },
+                reviewId: { type: new GraphQLNonNull(GraphQLID) },
+                content: { type: new GraphQLNonNull(GraphQLString)}
+            },
+            resolve(parentValue, args){
+                return review.update(
+                    {
+                        content: args.content,
+                    },
+                    {
+                        where: {
+                            id: args.reviewId
+                        }
+                    }
+                )
+                .then(review=>review)
+                .catch(err=>err)
             }
         }
     }

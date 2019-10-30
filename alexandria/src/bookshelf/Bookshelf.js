@@ -1,21 +1,18 @@
 import React, { useEffect } from 'react'
-
 import { graphql } from 'react-apollo'
-
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { fetchUserQuery, getUsersBooks, deleteBookMutation } from '../queries/index'
+import { fetchUserQuery, deleteBookMutation } from '../queries/index'
 
 import BookCard from '../bookcard/BookCard'
-
 
 const BookShelf = (props) => {
 
     useEffect(()=>{
         props.data.refetch()
-    }, [])
+    })
 
     const renderBooks = () => {
         const { books } = props.data.user
@@ -60,12 +57,6 @@ export default compose(
     graphql(deleteBookMutation, {
         name: "deleteBookMutation"
     }),
-    // graphql(getUsersBooks, {
-    //     name: "getUsersBooks",
-    //     variables: {
-    //         userId: 1
-    //     }
-    // }),
     graphql(fetchUserQuery),
     connect(mapStateToProps)
 )(BookShelf)

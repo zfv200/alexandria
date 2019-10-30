@@ -21,6 +21,14 @@ export const deleteBookMutation = gql`
     }
 `
 
+export const updateReviewMutation = gql`
+    mutation UpDateBookReview($bookId: ID!, $reviewId: ID!, $content: String!){
+        updateBookReview(bookId: $bookId, reviewId: $reviewId, content: $content){
+		    content
+        }
+    }
+`
+
 export const getUsersBooks = gql`
     query getUserBooks($userId: ID!){
         books (userId: $userId) {
