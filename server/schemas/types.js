@@ -30,7 +30,8 @@ const ReviewType = new GraphQLObjectType({
     fields: () => ({
         id: { type: GraphQLString },
         content: { type: GraphQLString },
-        userRating: { type: GraphQLInt }
+        userRating: { type: GraphQLInt },
+        userId: { type: GraphQLString }
     })
 })
 

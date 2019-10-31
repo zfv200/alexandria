@@ -1,7 +1,7 @@
 const { GraphQLObjectType, GraphQLID, GraphQLList } = require("graphql");
-const { UserType, AuthorType, BookType } = require("./types");
+const { UserType, AuthorType, BookType, ReviewType } = require("./types");
 const { sequelize } = require('../models/index')
-const { user, book, userbook, author } = sequelize.models
+const { user, book, userbook, author, review } = sequelize.models
 
 const RootQuery = new GraphQLObjectType({
     name: "RootQueryType",
@@ -50,6 +50,15 @@ const RootQuery = new GraphQLObjectType({
             resolve(parentValue, args) {
                 return book.findByPk(args.id)
                 .then(book=>book)
+                .catch(err=>err)
+            }
+        },
+        review: {
+            type: ReviewType,
+            args: { id: { type: GraphQLID } },
+            resolve(parentValue, args) {
+                return review.findByPk(args.id)
+                .then(review=>review)
                 .catch(err=>err)
             }
         }

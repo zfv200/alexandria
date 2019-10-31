@@ -23,8 +23,8 @@ export const deleteBookMutation = gql`
 `
 
 export const createReviewMutation = gql`
-    mutation CreateBookReview($bookId: ID!, $content: String!){
-        createBookReview(bookId: $bookId, content: $content){
+    mutation CreateBookReview($bookId: ID!, $content: String!, $userId: ID!, $userRating: String!){
+        createBookReview(bookId: $bookId, content: $content, userId: $userId, userRating: $userRating){
             id
             reviews {
                 id
@@ -68,6 +68,7 @@ export const getSingleBook = gql`
             reviews {
                 id
                 content 
+                userId
             }
             author {
                 id
@@ -93,6 +94,30 @@ export const fetchUserQuery = gql`
                     id
                     name
                 }
+            }
+        }
+    }
+`
+
+export const getSingleReview = gql`
+    query getSingleReview($id: ID!) {
+        review(id: $id){
+            id
+            content
+            userRating
+        }
+    }
+`
+
+export const updateReviewAndAverageReview = gql`
+    mutation UpdateReviewAndAverageReview($bookId: ID!, $reviewId: ID!, $starRating: String!){
+        updateReviewAndAverageReview(bookId: $bookId, reviewId: $reviewId, starRating: $starRating){
+            id
+            averageRating
+            reviews {
+                id
+                content
+                userRating
             }
         }
     }

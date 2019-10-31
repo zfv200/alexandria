@@ -1,5 +1,5 @@
 const graphql = require("graphql");
-const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLBoolean, GraphQLNonNull, GraphQLList } = graphql;
+const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLBoolean, GraphQLNonNull, GraphQLList, GraphQLInt } = graphql;
 const { UserType, UserBookType, BookType, AuthorType, ReviewType } = require("./types");
 const { sequelize } = require('../models/index')
 const { user, book, userbook, author, review } = sequelize.models
@@ -72,15 +72,18 @@ const RootMutation = new GraphQLObjectType({
             type: BookType,
             args: {
                 bookId: { type: new GraphQLNonNull(GraphQLID) },
-                content: { type: new GraphQLNonNull(GraphQLString) }
+                content: { type: new GraphQLNonNull(GraphQLString) },
+                userId: { type: new GraphQLNonNull(GraphQLID) },
+                userRating: { type: new GraphQLNonNull(GraphQLString) }
             },
             resolve(parentValue, args){
                 return review.create({
                     content: args.content,
-                    bookId: args.bookId
+                    bookId: args.bookId,
+                    userId: args.userId,
+                    userRating: args.userRating
                 })
                 .then(review=>review.getBook())
-                // .then(console.log)
             }
         },
         updateBookReview: {
@@ -103,6 +106,60 @@ const RootMutation = new GraphQLObjectType({
                 )
                 .then(reviewId=>review.findByPk(args.reviewId))
                 .then(review=>review.getBook())
+                .catch(err=>err)
+            }
+        },
+        updateReviewAndAverageReview: {
+            type: BookType, 
+            args: {
+                bookId: { type: new GraphQLNonNull(GraphQLID) },
+                reviewId: { type: new GraphQLNonNull(GraphQLID) },
+                starRating: { type: new GraphQLNonNull(GraphQLString) }
+            },
+            resolve(parentValue, args){
+                //update book average rating
+                //update book's review's rating
+                return review.findByPk(args.reviewId)
+                .then(review=>{
+                    return Promise.all(
+                        [
+                            review.update(
+                                {
+                                    userRating: parseInt(args.starRating)
+                                },
+                                {
+                                    where: {
+                                        id: args.reviewId
+                                    }
+                                }
+                            ), 
+                            review.getBook(),
+                            review.getUser()
+                        ]
+                    )
+                })
+                .then(resolutions=>{
+                    return Promise.all(
+                        [
+                            ...resolutions, 
+                            resolutions[1].getReviews()
+                        ]
+                    )
+                })
+                .then(resolutions=>{
+                    const reviews = resolutions[3]
+                    let sum = 0;
+                    for(let i=0;i<reviews.length;i++){
+                        sum += reviews[i].userRating
+                    }
+                    let newAverage = sum/reviews.length
+                    return resolutions[1].update(
+                        {
+                            averageRating: newAverage
+                        }
+                    )
+                })
+                .then(book=>book)
                 .catch(err=>err)
             }
         }

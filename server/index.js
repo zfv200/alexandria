@@ -154,14 +154,18 @@ const seed = async () => {
     await models.Review.create(
         {
             content: "This book was the greatest! Loved it.",
-            bookId: 1
+            bookId: 1,
+            userId: 1,
+            userRating: 5
         }
     )
 
     await models.Review.create(
         {
             content: "Not as good as number one but still great.",
-            bookId: 2
+            bookId: 2,
+            userId: 1,
+            userRating: 4
         }
     )
 }

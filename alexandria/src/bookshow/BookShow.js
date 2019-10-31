@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { graphql } from 'react-apollo'
 
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 import { getSingleBook } from '../queries/index'
 
 import Review from '../review/Review'
 import CreateReview from '../createreview/CreateReview'
-import StarRating from '../starrating/StarRating'
 
 const BookShow = (props) => {
 
@@ -36,7 +36,6 @@ const BookShow = (props) => {
 
     const renderBook = () => {
 
-
         const { title, author, thumbnail, reviews } = props.data.book 
 
         return (
@@ -59,13 +58,18 @@ const BookShow = (props) => {
             :
                 renderBook()
             }
-            <StarRating />
         </div>
     )
+}
+
+const mapStateToProps = (state) => {
+    return {
+        userId: state.userReducer.id
+    }
 }
 
 export default graphql(
     getSingleBook, {
         options: (props) => ({ variables: { id: props.match.params.id } })
     }
-)(BookShow)
+)(connect(mapStateToProps)(BookShow))

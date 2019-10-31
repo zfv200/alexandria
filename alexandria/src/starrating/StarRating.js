@@ -2,15 +2,19 @@ import React, { useState } from 'react'
 import Ratings from 'react-ratings-declarative';
 
 
-const StarRating = () => {
+const StarRating = (props) => {
 
-    const [rating, changeRating] = useState(0)
+    // const [rating, changeRating] = useState(0)
+
+    const myChangeRating = (newRating) => {
+        props.changeRating(newRating)
+    }
 
     return (
         <Ratings
-            rating={rating}
+            rating={props.rating}
             widgetRatedColors="blue"
-            changeRating={changeRating}
+            changeRating={myChangeRating}
         >
             <Ratings.Widget />
             <Ratings.Widget />
