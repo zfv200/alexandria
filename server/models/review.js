@@ -2,6 +2,9 @@ const review = (sequelize, DataTypes) => {
     const Review = sequelize.define('review', {
         content: {
             type: DataTypes.TEXT
+        },
+        userRating: {
+            type: DataTypes.INTEGER
         }
     })
 

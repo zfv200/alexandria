@@ -1,5 +1,5 @@
 const graphql = require("graphql");
-const { GraphQLObjectType, GraphQLString, GraphQLList } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLInt } = graphql;
 // const db = require("../pgAdaptor").db;
 
 const { sequelize } = require('../models/index')
@@ -29,7 +29,8 @@ const ReviewType = new GraphQLObjectType({
     name: "Review",
     fields: () => ({
         id: { type: GraphQLString },
-        content: { type: GraphQLString }
+        content: { type: GraphQLString },
+        userRating: { type: GraphQLInt }
     })
 })
 
@@ -40,6 +41,7 @@ const BookType = new GraphQLObjectType({
         id: { type: GraphQLString },
         title: { type: GraphQLString },
         thumbnail: { type: GraphQLString },
+        averageRating: { type: GraphQLInt },
         author: {
             type: AuthorType, 
             resolve(parentValue, args) {

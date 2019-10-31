@@ -6,6 +6,9 @@ const book = (sequelize, DataTypes) => {
         }, 
         thumbnail: {
             type: DataTypes.STRING
+        },
+        averageRating: {
+            type: DataTypes.INTEGER
         }
     })
 
