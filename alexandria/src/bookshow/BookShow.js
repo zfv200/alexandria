@@ -7,6 +7,7 @@ import { getSingleBook } from '../queries/index'
 
 import Review from '../review/Review'
 import CreateReview from '../createreview/CreateReview'
+import StarRating from '../starrating/StarRating'
 
 const BookShow = (props) => {
 
@@ -58,6 +59,7 @@ const BookShow = (props) => {
             :
                 renderBook()
             }
+            <StarRating />
         </div>
     )
 }
